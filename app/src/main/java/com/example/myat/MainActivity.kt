@@ -15,6 +15,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.example.myat.fragments.SettingFragment
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
 
@@ -44,8 +46,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
 
         val navigationView = findViewById<NavigationView>(R.id.navView)
         val header = navigationView.getHeaderView(0)
-        val userNameTxt = findViewById<TextView>(R.id.usernameText)
-        val emailTxt = findViewById<TextView>(R.id.email)
+        //val userNameTxt = findViewById<TextView>(R.id.usernameText)
         val profileImg = findViewById<ImageView>(R.id.profileImg)
 
         navigationView.setNavigationItemSelectedListener(this)
@@ -55,6 +56,8 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
+
+        updateNavHeader()
 
     }
 
@@ -79,5 +82,31 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             .beginTransaction()
             .replace(R.id.fragmentContainer,fragment)
             .commit()
+    }
+
+    private fun updateNavHeader() {
+        val auth = FirebaseAuth.getInstance()
+        val db = FirebaseFirestore.getInstance()
+        val navView = findViewById<NavigationView>(R.id.navView)
+
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            val uid = currentUser.uid
+
+            db.collection("users").document(uid)
+                .get()
+                .addOnSuccessListener { documentSnapshot ->
+                    if (documentSnapshot.exists()) {
+                        val username = documentSnapshot.getString("name")
+                        // Update the navigation header UI with the retrieved username
+                        val navHeaderView = navView.getHeaderView(0)
+                        val navWelcome = navHeaderView.findViewById<TextView>(R.id.nav_welcome)
+                        navWelcome.text = "Welcome,\n\n$username"
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this,"Error Loading Name",Toast.LENGTH_LONG).show()
+                }
+        }
     }
 }

@@ -2,36 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="176dp"
+    android:layout_height="250dp"
     android:gravity="bottom"
     android:background="@drawable/wave"
-    android:padding="16dp">
+    android:padding="40dp"
+    >
 
     <ImageView
         android:id="@+id/profileImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/logo1"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp" />
 
     <TextView
-        android:id="@+id/usernameText"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Username"
-        android:textColor="@color/white"
+        android:id="@+id/nav_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome, "
         android:textSize="18sp"
         android:textStyle="bold"
-        />
-
-    <TextView
-        android:id="@+id/email"
+        android:textColor="@android:color/white" />
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="E-Mail"
-        android:layout_marginBottom="14dp"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        />
+        android:layout_height="8dp" />
+
 
 </LinearLayout>
