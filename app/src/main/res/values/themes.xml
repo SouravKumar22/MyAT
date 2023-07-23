@@ -6,4 +6,12 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 
     </style>
+
+    <!-- if action back use on all screen -->
+
+    <style name="Theme.AppCompat.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+    </style>
 </resources>
