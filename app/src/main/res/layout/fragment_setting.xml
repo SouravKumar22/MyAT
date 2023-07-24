@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.SettingFragment">
+    tools:context=".fragments.SettingFragment"
+    android:background="@drawable/img">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -13,6 +14,6 @@
         android:text="Setting Fragment"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:textColor="@color/black"/>
+        android:textColor="@color/white"/>
 
 </FrameLayout>
