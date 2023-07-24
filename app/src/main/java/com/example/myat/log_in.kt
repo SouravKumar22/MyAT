@@ -30,10 +30,10 @@ class log_in:AppCompatActivity() {
 
     companion object {
         // Replace these values with the latitude and longitude of your primary location
-        private const val PRIMARY_LOCATION_LATITUDE = 26.865644
-        private const val PRIMARY_LOCATION_LONGITUDE = 81.001442
+        private const val PRIMARY_LOCATION_LATITUDE = 27.416472    //26.865644
+        private const val PRIMARY_LOCATION_LONGITUDE = 80.247337  //81.001442
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
-        private const val ALLOWED_RADIUS = 10.0 // 10 meters
+        private const val ALLOWED_RADIUS = 1000000.0 // 10 meters
 
 
         // Set the allowed radius threshold in meters
@@ -101,15 +101,13 @@ class log_in:AppCompatActivity() {
                 location?.let {
                     // Calculate the distance between the user's location and the primary location
                     val distance = calculateDistance(it, primaryLocation)
-                    val latitude = location.latitude
-                    val longitude = location.longitude
-                    Log.d("Location", "Latitude: $latitude, Longitude: $longitude")
+                    val latitude = primaryLocation.latitude
+                    val longitude = primaryLocation.longitude
+                    Log.e("Location", "Latitude: $latitude, Longitude: $longitude")
 
                     if (distance <= ALLOWED_RADIUS) {
                         // User's location is within the allowed radius, proceed with login
                         loginUser()
-                        var intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
                     } else {
                         // User's location is outside the allowed radius, show error message
                         showError("You are outside the allowed radius for login.")
@@ -129,6 +127,7 @@ class log_in:AppCompatActivity() {
     }
 
     private fun loginUser() {
+
         val auth = FirebaseAuth.getInstance()
         val db = FirebaseFirestore.getInstance()
         val empID = findViewById<EditText>(R.id.input_emp_id).text.toString()
@@ -139,6 +138,7 @@ class log_in:AppCompatActivity() {
             .get()
             .addOnSuccessListener { querySnapshot ->
                 if (!querySnapshot.isEmpty) {
+                    Log.e("Reached","Reached1")
                     val userDocument = querySnapshot.documents[0]
                     val userEmail = userDocument.getString("email")
 
@@ -147,7 +147,10 @@ class log_in:AppCompatActivity() {
                         auth.signInWithEmailAndPassword(userEmail, password)
                             .addOnCompleteListener(this) { task ->
                                 if (task.isSuccessful) {
+                                    Log.e("Reached","Reached2")
                                     // Login success, user is authenticated
+                                    val intent = Intent(this, MainActivity::class.java)
+                                    startActivity(intent)
                                     Toast.makeText(this, "Login Successful!", Toast.LENGTH_LONG)
                                         .show()
                                     // Redirect to the home screen or perform other actions

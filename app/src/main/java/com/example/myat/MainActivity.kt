@@ -3,6 +3,7 @@ package com.example.myat
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
@@ -68,6 +69,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
                 title = "Setting"
             }
             R.id.nav_logout -> {
+                Log.e("Logout","Logged out")
                 var intent = Intent(this, log_in::class.java)
                 Toast.makeText(this,"Logout", Toast.LENGTH_LONG).show()
                 startActivity(intent)
