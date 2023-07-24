@@ -73,10 +73,10 @@ class log_in:AppCompatActivity() {
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 LOCATION_PERMISSION_REQUEST_CODE
             )
-        } else {
-            // Location permissions granted, proceed with location check
-            loginUserWithLocationCheck()
-        }
+         } //else {
+//            // Location permissions granted, proceed with location check
+//            loginUserWithLocationCheck()
+//        }
     }
 
     private fun loginUserWithLocationCheck() {
