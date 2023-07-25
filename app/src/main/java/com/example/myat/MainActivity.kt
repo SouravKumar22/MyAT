@@ -14,7 +14,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import com.example.myat.fragments.SettingFragment
+import com.example.myat.fragments.EditFragment
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -64,9 +64,9 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_setting -> {
-                replaceFragment(SettingFragment())
-                title = "Setting"
+            R.id.nav_edit -> {
+                replaceFragment(EditFragment())
+                title = "Edit"
             }
             R.id.nav_logout -> {
                 Log.e("Logout", "Logged out")

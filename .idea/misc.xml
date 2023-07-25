@@ -8,6 +8,7 @@
         <entry key="..\:/Users/soura/AndroidStudioProjects/MyAT/app/src/main/res/drawable/css2.xml" value="0.1455" />
         <entry key="..\:/Users/soura/AndroidStudioProjects/MyAT/app/src/main/res/drawable/css3.xml" value="0.1455" />
         <entry key="..\:/Users/soura/AndroidStudioProjects/MyAT/app/src/main/res/drawable/ic_baseline_call_24.xml" value="0.1455" />
+        <entry key="..\:/Users/soura/AndroidStudioProjects/MyAT/app/src/main/res/drawable/ic_edit.xml" value="0.1" />
         <entry key="..\:/Users/soura/AndroidStudioProjects/MyAT/app/src/main/res/drawable/ic_email.xml" value="0.1455" />
         <entry key="..\:/Users/soura/AndroidStudioProjects/MyAT/app/src/main/res/drawable/ic_logout_24.xml" value="0.1" />
         <entry key="..\:/Users/soura/AndroidStudioProjects/MyAT/app/src/main/res/drawable/ic_mobile.xml" value="0.1455" />
@@ -15,10 +16,10 @@
         <entry key="..\:/Users/soura/AndroidStudioProjects/MyAT/app/src/main/res/drawable/ic_settings_24.xml" value="0.1" />
         <entry key="..\:/Users/soura/AndroidStudioProjects/MyAT/app/src/main/res/drawable/input_bg.xml" value="0.1455" />
         <entry key="..\:/Users/soura/AndroidStudioProjects/MyAT/app/src/main/res/drawable/wave.xml" value="0.104" />
-        <entry key="..\:/Users/soura/AndroidStudioProjects/MyAT/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/soura/AndroidStudioProjects/MyAT/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/soura/AndroidStudioProjects/MyAT/app/src/main/res/layout/app_bar_main.xml" value="0.1" />
         <entry key="..\:/Users/soura/AndroidStudioProjects/MyAT/app/src/main/res/layout/fragment_home.xml" value="0.16983695652173914" />
-        <entry key="..\:/Users/soura/AndroidStudioProjects/MyAT/app/src/main/res/layout/fragment_setting.xml" value="0.1" />
+        <entry key="..\:/Users/soura/AndroidStudioProjects/MyAT/app/src/main/res/layout/fragment_setting.xml" value="0.2" />
         <entry key="..\:/Users/soura/AndroidStudioProjects/MyAT/app/src/main/res/layout/log_in.xml" value="0.21822916666666667" />
         <entry key="..\:/Users/soura/AndroidStudioProjects/MyAT/app/src/main/res/layout/nav_header.xml" value="0.17905982905982906" />
         <entry key="..\:/Users/soura/AndroidStudioProjects/MyAT/app/src/main/res/layout/sign_up.xml" value="0.2" />
