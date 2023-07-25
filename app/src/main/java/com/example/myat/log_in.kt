@@ -30,10 +30,10 @@ class log_in:AppCompatActivity() {
 
     companion object {
         // Replace these values with the latitude and longitude of your primary location
-        private const val PRIMARY_LOCATION_LATITUDE = 27.416472    //26.865644
-        private const val PRIMARY_LOCATION_LONGITUDE = 80.247337  //81.001442
+        private const val PRIMARY_LOCATION_LATITUDE = 26.865644
+        private const val PRIMARY_LOCATION_LONGITUDE = 81.001442
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
-        private const val ALLOWED_RADIUS = 1000000.0 // 10 meters
+        private const val ALLOWED_RADIUS = 10000.0 // 10 meters
 
 
         // Set the allowed radius threshold in meters
@@ -73,10 +73,11 @@ class log_in:AppCompatActivity() {
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 LOCATION_PERMISSION_REQUEST_CODE
             )
-         } //else {
-//            // Location permissions granted, proceed with location check
-//            loginUserWithLocationCheck()
+//         } else {
+////             Location permissions granted, proceed with location check
+//                loginUserWithLocationCheck()
 //        }
+        }
     }
 
     private fun loginUserWithLocationCheck() {
@@ -104,6 +105,7 @@ class log_in:AppCompatActivity() {
                     val latitude = primaryLocation.latitude
                     val longitude = primaryLocation.longitude
                     Log.e("Location", "Latitude: $latitude, Longitude: $longitude")
+                    Log.e("Distance", "$distance")
 
                     if (distance <= ALLOWED_RADIUS) {
                         // User's location is within the allowed radius, proceed with login

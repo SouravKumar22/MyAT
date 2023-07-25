@@ -18,8 +18,12 @@ import com.example.myat.fragments.EditFragment
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
+
+    private val db = Firebase.firestore
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -36,6 +40,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         }
     }
 
+
     private lateinit var drawerLayout: DrawerLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,11 +49,14 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         drawerLayout = findViewById(R.id.drawerLayout)
+        display()
 
         val navigationView = findViewById<NavigationView>(R.id.navView)
         val header = navigationView.getHeaderView(0)
         //val userNameTxt = findViewById<TextView>(R.id.usernameText)
         val profileImg = findViewById<ImageView>(R.id.profileImg)
+
+
 
         navigationView.setNavigationItemSelectedListener(this)
 //        navigationView.checkedItem?.setOnMenuItemClickListener {
@@ -115,6 +123,36 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
                     Toast.makeText(this, "Error Loading Name", Toast.LENGTH_LONG).show()
                 }
         }
+    }
+
+    private fun display(){
+
+        val id = findViewById<TextView>(R.id.disp_id)
+        val nme = findViewById<TextView>(R.id.disp_name)
+        val mbl = findViewById<TextView>(R.id.disp_mobile)
+        val mal = findViewById<TextView>(R.id.disp_mail)
+        val dsgn = findViewById<TextView>(R.id.disp_designtn)
+        val user_id = FirebaseAuth.getInstance().currentUser!!.uid
+        val ref = db.collection("users").document(user_id)
+        ref.get().addOnSuccessListener {
+            if(it!=null){
+                val employee_id = it.data?.get("emp_id")?.toString()
+                val mobile = it.data?.get("mobile")?.toString()
+                val name = it.data?.get("name")?.toString()
+                val desig = it.data?.get("designation")?.toString()
+                val mil = it.data?.get("email")?.toString()
+
+                id.text = employee_id
+                mbl.text = mobile
+                nme.text = name
+                dsgn.text = desig
+                mal.text = mil
+            }
+
+        }
+            .addOnFailureListener {
+                Toast.makeText(this, "Error Loading Details", Toast.LENGTH_SHORT).show()
+            }
     }
 }
 
