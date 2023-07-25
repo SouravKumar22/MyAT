@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        Log.e("Navigation bar:",item.itemId.toString())
+        Log.e("Navigation bar:", item.itemId.toString())
         when (item.itemId) {
             R.id.nav_edit -> {
                 title = "Edit"
@@ -86,6 +86,11 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
                 val intent = Intent(this, log_in::class.java)
                 Toast.makeText(this, "Logout", Toast.LENGTH_LONG).show()
                 startActivity(intent)
+
+            }
+            R.id.nav_delete -> {
+                Log.e("Delete", "Deleted Function Called")
+
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)

@@ -28,4 +28,15 @@
             android:visible="true"/>
     </group>
 
+    <group
+        android:id="@+id/group3"
+        android:checkableBehavior="single"
+        android:background="@color/white">
+        <item
+            android:id="@+id/nav_delete"
+            android:icon="@drawable/ic_delete"
+            android:title="Delete"
+            android:visible="true"/>
+    </group>
+
 </menu>
