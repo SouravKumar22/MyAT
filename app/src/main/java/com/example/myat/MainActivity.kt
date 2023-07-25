@@ -51,6 +51,9 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         val profileImg = findViewById<ImageView>(R.id.profileImg)
 
         navigationView.setNavigationItemSelectedListener(this)
+//        navigationView.checkedItem?.setOnMenuItemClickListener {
+//            onNavigationItemSelected(navigationView.checkedItem!!)
+//        }
 
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer
@@ -63,14 +66,16 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        Log.e("Navigation bar:",item.itemId.toString())
         when (item.itemId) {
             R.id.nav_edit -> {
-                replaceFragment(EditFragment())
                 title = "Edit"
+                val intent = Intent(this, EditFragment::class.java)
+                startActivity(intent)
             }
             R.id.nav_logout -> {
                 Log.e("Logout", "Logged out")
-                var intent = Intent(this, log_in::class.java)
+                val intent = Intent(this, log_in::class.java)
                 Toast.makeText(this, "Logout", Toast.LENGTH_LONG).show()
                 startActivity(intent)
             }

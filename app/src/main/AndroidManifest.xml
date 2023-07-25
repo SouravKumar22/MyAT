@@ -28,6 +28,10 @@
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:exported="false"/>
 
+        <activity android:name=".fragments.EditFragment"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:exported="false"/>
+
         <activity
             android:name=".splashscreen"
             android:exported="true"

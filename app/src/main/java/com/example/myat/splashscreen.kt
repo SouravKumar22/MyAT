@@ -2,6 +2,7 @@ package com.example.myat
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 
@@ -20,13 +21,14 @@ class splashscreen : AppCompatActivity() {
 
             // Check the user's authentication status
             val currentUser = auth.currentUser
-            if (currentUser != null) {
+            Log.e("currentUser",currentUser?.email.toString())
+            /*if (currentUser != null) {
                 // User is authenticated, navigate to MainActivity
                 startActivity(Intent(this, MainActivity::class.java))
-            } else {
+            }else{*/
                 // User is not authenticated, navigate to LoginActivity
                 startActivity(Intent(this, log_in::class.java))
-            }
+            //}
             // Close the splash activity to prevent the user from navigating back to it
             finish()
         }, SPLASH_DELAY)
