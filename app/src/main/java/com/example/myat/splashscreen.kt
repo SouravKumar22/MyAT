@@ -3,9 +3,12 @@ package com.example.myat
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 
 class splashscreen : AppCompatActivity() {
     private val SPLASH_DELAY: Long = 2000 // 3 seconds
+    private lateinit var auth: FirebaseAuth
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -13,9 +16,17 @@ class splashscreen : AppCompatActivity() {
 
         // Use a Handler to delay the transition to the next activity
         android.os.Handler().postDelayed({
-            val intent = Intent(this, log_in::class.java)
-            startActivity(intent)
+            auth = FirebaseAuth.getInstance()
 
+            // Check the user's authentication status
+            val currentUser = auth.currentUser
+            if (currentUser != null) {
+                // User is authenticated, navigate to MainActivity
+                startActivity(Intent(this, MainActivity::class.java))
+            } else {
+                // User is not authenticated, navigate to LoginActivity
+                startActivity(Intent(this, log_in::class.java))
+            }
             // Close the splash activity to prevent the user from navigating back to it
             finish()
         }, SPLASH_DELAY)

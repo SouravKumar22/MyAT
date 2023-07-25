@@ -1,14 +1,12 @@
 package com.example.myat
 
-import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -21,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import java.util.*
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -30,10 +29,10 @@ class log_in:AppCompatActivity() {
 
     companion object {
         // Replace these values with the latitude and longitude of your primary location
-        private const val PRIMARY_LOCATION_LATITUDE = 27.416472    //26.865644
-        private const val PRIMARY_LOCATION_LONGITUDE = 80.247337  //81.001442
+        private const val PRIMARY_LOCATION_LATITUDE = 26.865644
+        private const val PRIMARY_LOCATION_LONGITUDE = 81.001442
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
-        private const val ALLOWED_RADIUS = 1000000.0 // 10 meters
+        private const val ALLOWED_RADIUS = 50.0 // 50 meters
 
 
         // Set the allowed radius threshold in meters
@@ -73,7 +72,7 @@ class log_in:AppCompatActivity() {
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 LOCATION_PERMISSION_REQUEST_CODE
             )
-         } //else {
+        } //else {
 //            // Location permissions granted, proceed with location check
 //            loginUserWithLocationCheck()
 //        }
@@ -84,18 +83,6 @@ class log_in:AppCompatActivity() {
 
         primaryLocation.latitude = PRIMARY_LOCATION_LATITUDE // Set the latitude of the primary location
         primaryLocation.longitude = PRIMARY_LOCATION_LONGITUDE // Set the longitude of the primary location
-
-        // Check for location permissions and get the user's current location
-//        if (ActivityCompat.checkSelfPermission(
-//                this,
-//                ACCESS_FINE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-//                this,
-//                android.Manifest.permission.ACCESS_COARSE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            return
-//        }
         try {
             fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                 location?.let {
@@ -104,13 +91,16 @@ class log_in:AppCompatActivity() {
                     val latitude = primaryLocation.latitude
                     val longitude = primaryLocation.longitude
                     Log.e("Location", "Latitude: $latitude, Longitude: $longitude")
+                    Log.e("Distance","Distance: $distance")
 
                     if (distance <= ALLOWED_RADIUS) {
                         // User's location is within the allowed radius, proceed with login
                         loginUser()
+                        getCityName(location.latitude,location.longitude)
                     } else {
                         // User's location is outside the allowed radius, show error message
                         showError("You are outside the allowed radius for login.")
+                        getCityName(location.latitude,location.longitude)
                     }
                 } ?: run {
                     // Location is null, handle the case where user location is not available
@@ -209,6 +199,17 @@ class log_in:AppCompatActivity() {
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults) // Add this line
+        }
+
+    private fun getCityName(lat: Double,long: Double):String{
+        var cityName = ""
+        var countryName = ""
+        var geoCoder = Geocoder(this, Locale.getDefault())
+        var Adress = geoCoder.getFromLocation(lat,long,3)
+
+        cityName = Adress!!.get(0).locality
+        countryName = Adress!!.get(0).countryName
+        Log.d("Debug:","Your City: " + cityName + " ; your Country " + countryName)
+        return cityName
     }
 }
-

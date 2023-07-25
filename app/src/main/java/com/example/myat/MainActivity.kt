@@ -29,9 +29,9 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     }
 
     private fun onBackPressedMethod() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
-        }else{
+        } else {
             finish()
         }
     }
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        onBackPressedDispatcher.addCallback(this,onBackPressedCallback)
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         drawerLayout = findViewById(R.id.drawerLayout)
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         navigationView.setNavigationItemSelectedListener(this)
 
         val toggle = ActionBarDrawerToggle(
-            this,drawerLayout,toolbar,R.string.open_drawer,R.string.close_drawer
+            this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
@@ -63,15 +63,15 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.nav_setting -> {
                 replaceFragment(SettingFragment())
                 title = "Setting"
             }
             R.id.nav_logout -> {
-                Log.e("Logout","Logged out")
+                Log.e("Logout", "Logged out")
                 var intent = Intent(this, log_in::class.java)
-                Toast.makeText(this,"Logout", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Logout", Toast.LENGTH_LONG).show()
                 startActivity(intent)
             }
         }
@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fragmentContainer,fragment)
+            .replace(R.id.fragmentContainer, fragment)
             .commit()
     }
 
@@ -107,8 +107,9 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
                     }
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(this,"Error Loading Name",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Error Loading Name", Toast.LENGTH_LONG).show()
                 }
         }
     }
 }
+
