@@ -65,8 +65,10 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_edit -> {
-                replaceFragment(EditFragment())
                 title = "Edit"
+                var intent = Intent(this, edit::class.java)
+                Toast.makeText(this, "Not Worked", Toast.LENGTH_LONG).show()
+                startActivity(intent)
             }
             R.id.nav_logout -> {
                 Log.e("Logout", "Logged out")
@@ -79,12 +81,6 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         return true
     }
 
-    private fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragmentContainer, fragment)
-            .commit()
-    }
 
     private fun updateNavHeader() {
         val auth = FirebaseAuth.getInstance()
