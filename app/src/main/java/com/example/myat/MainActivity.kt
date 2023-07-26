@@ -1,8 +1,10 @@
 package com.example.myat
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.MenuItem
 import android.widget.ImageView
@@ -20,6 +22,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import java.util.UUID
 
 class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
 
@@ -57,11 +61,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         val profileImg = findViewById<ImageView>(R.id.profileImg)
 
 
-
         navigationView.setNavigationItemSelectedListener(this)
-//        navigationView.checkedItem?.setOnMenuItemClickListener {
-//            onNavigationItemSelected(navigationView.checkedItem!!)
-//        }
 
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer
@@ -71,6 +71,10 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
 
         updateNavHeader()
 
+        profileImg?.setOnClickListener {
+            Log.e("ImageTag", "Reached in setOnClickListener()")
+            pickImageFromGallery()
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -130,6 +134,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
                     Toast.makeText(this, "Error Loading Name", Toast.LENGTH_LONG).show()
                 }
         }
+
     }
 
     private fun display(){
@@ -161,5 +166,62 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
                 Toast.makeText(this, "Error Loading Details", Toast.LENGTH_SHORT).show()
             }
     }
+
+    private fun ChangeImage(){
+        // id -> profileImg
+
+    }
+
+
+    private val PICK_IMAGE_REQUEST = 1
+
+    private fun pickImageFromGallery() {
+        Log.e("ImageTag","Reached in pickImageFromGallery()")
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+            val imageUri = data.data
+            // Now you have the image URI, proceed to upload it to Firebase Storage and store the URL in Firestore.
+            if (imageUri != null) {
+                uploadImageToFirebase(imageUri)
+            }
+        }
+    }
+
+    private fun saveImageUrlToFirestore(imageUrl: String) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        if (uid != null) {
+            val userRef = FirebaseFirestore.getInstance().collection("users").document(uid)
+            userRef.update("profileImageUrl", imageUrl)
+                .addOnSuccessListener {
+                    // Image URL successfully stored in Firestore.
+                }
+                .addOnFailureListener {
+                    // Handle the Firestore update failure, if any.
+                    Log.e("Exception","Error")
+                }
+        }
+    }
+    private fun uploadImageToFirebase(imageUri: Uri) {
+        val filename = UUID.randomUUID().toString()
+        val ref = FirebaseStorage.getInstance().getReference("/profile_images/$filename")
+
+        ref.putFile(imageUri)
+            .addOnSuccessListener {
+                ref.downloadUrl.addOnSuccessListener { downloadUri ->
+                    // Get the download URL and store it in Firestore.
+                    saveImageUrlToFirestore(downloadUri.toString())
+                }
+            }
+            .addOnFailureListener {
+                // Handle the upload failure, if any.
+            }
+    }
+
 }
 

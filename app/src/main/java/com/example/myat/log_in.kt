@@ -1,14 +1,11 @@
 package com.example.myat
 
-import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -33,7 +30,7 @@ class log_in:AppCompatActivity() {
         private const val PRIMARY_LOCATION_LATITUDE = 26.865644
         private const val PRIMARY_LOCATION_LONGITUDE = 81.001442
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
-        private const val ALLOWED_RADIUS = 10000.0 // 10 meters
+        private const val ALLOWED_RADIUS = 100000000.0 // 10 meters
 
 
         // Set the allowed radius threshold in meters
@@ -79,6 +76,16 @@ class log_in:AppCompatActivity() {
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 LOCATION_PERMISSION_REQUEST_CODE
             )
+
+            val PERMISSIONS = arrayOf(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+            ActivityCompat.requestPermissions(
+                this,
+                PERMISSIONS, MODE_WORLD_READABLE
+            )
+
 //         } else {
 ////             Location permissions granted, proceed with location check
 //                loginUserWithLocationCheck()

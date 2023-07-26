@@ -1,5 +1,6 @@
 package com.example.myat.fragments
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -9,28 +10,36 @@ import com.example.myat.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.lang.Exception
 
 class EditFragment : AppCompatActivity() {
 
-    private val db = Firebase.firestore
+
+    val db = Firebase.firestore
     val user_id = FirebaseAuth.getInstance().currentUser!!.uid
-    val nam = findViewById<EditText>(R.id.et_name)
-    val mbl = findViewById<EditText>(R.id.et_mobile)
-    val ml = findViewById<EditText>(R.id.et_mail)
-    val des = findViewById<EditText>(R.id.et_designtn)
-    val updt = findViewById<Button>(R.id.btnupdate)
-    val eid = findViewById<TextView>(R.id.et_id)
-    val ref = db.collection("users").document(user_id)
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_edit)
+
+        val mbl = findViewById<EditText>(R.id.et_mobile)
+        val ml = findViewById<EditText>(R.id.et_mail)
+        val des = findViewById<EditText>(R.id.et_designtn)
+        val nam = findViewById<EditText>(R.id.et_name)
+        val updt = findViewById<Button>(R.id.btnupdate)
+        val eid = findViewById<TextView>(R.id.et_id)
+
+        val ref = db.collection("users").document(user_id)
+
         eid.setOnClickListener {
             Toast.makeText(this,"Employee ID can't be changed",Toast.LENGTH_SHORT).show()
         }
 
         updt.setOnClickListener {
-            Udpate()
+            Update(nam.text.toString(), mbl.text.toString(),ml.text.toString(),des.text.toString())
         }
+
 
         ref.get().addOnSuccessListener {
             if (it != null) {
@@ -44,23 +53,30 @@ class EditFragment : AppCompatActivity() {
 
         }
 
-    private fun Udpate(){
+    private fun Update( nam:String, mbl:String, ml:String, des:String){
 
+        try {
 
-        val enam = nam.text.toString()
-        val embl = mbl.text.toString()
-        val eml = ml.text.toString()
-        val edes = des.text.toString()
+            val enam = nam.toString()
+            val embl = mbl.toString()
+            val eml = ml.toString()
+            val edes = des.toString()
 
-        val updateMap = mapOf(
-            "name" to enam,
-            "mobile" to embl,
-            "email" to eml,
-            "designation" to edes
-        )
-        db.collection("users").document(user_id).update(updateMap)
+            val updateMap = mapOf(
+                "name" to enam,
+                "mobile" to embl,
+                "email" to eml,
+                "designation" to edes
+            )
+            val db = Firebase.firestore
+            val user_id = FirebaseAuth.getInstance().currentUser!!.uid
+            db.collection("users").document(user_id).update(updateMap)
 
-        Toast.makeText(this,"Successfully Edited the Information",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Successfully Edited the Information",Toast.LENGTH_SHORT).show()
+
+        }catch (e:Exception){
+            Log.e("Error:",e.toString())
+        }
 
     }
 
