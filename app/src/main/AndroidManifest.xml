@@ -19,10 +19,7 @@
         android:uiOptions="splitActionBarWhenNarrow"
         tools:targetApi="31">
         <activity
-            android:name=".change_password"
-            android:exported="false" />
-        <activity
-            android:name=".OTP"
+            android:name=".forgot_password"
             android:exported="false" />
         <activity
             android:name=".sign_up"

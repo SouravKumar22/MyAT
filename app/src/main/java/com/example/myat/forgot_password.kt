@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class forgot_password:AppCompatActivity() {
 
-    val edtxt = findViewById<EditText>(R.id.t_number)
+    val edtxt = findViewById<EditText>(R.id.t_mail)
     val btn = findViewById<Button>(R.id.btnotp)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,17 +17,8 @@ class forgot_password:AppCompatActivity() {
         setContentView(R.layout.forgot_password)
 
         btn.setOnClickListener {
-            if (!edtxt.text.toString().trim().isEmpty()) {
-                if (edtxt.text.toString().trim().length == 10) {
-                    val intent = Intent(this, OTP::class.java)
-                    intent.putExtra("mobile", edtxt.text.toString())
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(this, "Please Enter Correct Number", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                Toast.makeText(this, "Please Enter Mobile Number", Toast.LENGTH_SHORT).show()
-            }
+
         }
     }
+
 }

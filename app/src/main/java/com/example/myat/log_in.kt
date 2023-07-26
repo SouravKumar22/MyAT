@@ -51,6 +51,7 @@ class log_in:AppCompatActivity() {
 
         var log_in = findViewById<Button>(R.id.btnlogin)
         var sgn_up = findViewById<TextView>(R.id.textViewSignUp)
+        var fpass = findViewById<TextView>(R.id.forgotPassword)
 
         log_in.setOnClickListener {
             loginUserWithLocationCheck()
@@ -58,6 +59,11 @@ class log_in:AppCompatActivity() {
 
         sgn_up.setOnClickListener {
             var intent = Intent(this, sign_up::class.java)
+            startActivity(intent)
+        }
+
+        fpass.setOnClickListener {
+            var intent = Intent(this, forgot_password::class.java)
             startActivity(intent)
         }
 
