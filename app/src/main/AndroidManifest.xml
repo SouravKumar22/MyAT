@@ -32,6 +32,10 @@
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:exported="false"/>
 
+        <activity android:name=".delete_profile"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:exported="false"/>
+
         <activity
             android:name=".splashscreen"
             android:exported="true"

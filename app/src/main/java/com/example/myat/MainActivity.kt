@@ -84,12 +84,14 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             R.id.nav_logout -> {
                 Log.e("Logout", "Logged out")
                 val intent = Intent(this, log_in::class.java)
-                Toast.makeText(this, "Logout", Toast.LENGTH_LONG).show()
                 startActivity(intent)
+                Toast.makeText(this, "Logout", Toast.LENGTH_LONG).show()
 
             }
             R.id.nav_delete -> {
                 Log.e("Delete", "Deleted Function Called")
+                val intent = Intent(this, delete_profile::class.java)
+                startActivity(intent)
 
             }
         }
