@@ -20,6 +20,20 @@
     <group
         android:id="@+id/group2"
         android:checkableBehavior="single"
+        android:background="@color/white"
+        >
+
+
+        <item
+            android:id="@+id/nav_att"
+            android:icon="@drawable/ic_att"
+            android:title="My Attendance"
+            android:visible="true"/>
+    </group>
+
+    <group
+        android:id="@+id/group3"
+        android:checkableBehavior="single"
         android:background="@color/white">
         <item
             android:id="@+id/nav_logout"
@@ -29,7 +43,7 @@
     </group>
 
     <group
-        android:id="@+id/group3"
+        android:id="@+id/group4"
         android:checkableBehavior="single"
         android:background="@color/white">
         <item

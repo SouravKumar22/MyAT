@@ -7,15 +7,14 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.MenuItem
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.myat.fragments.EditFragment
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -23,11 +22,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import java.util.UUID
 
 class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
 
     private val db = Firebase.firestore
+    private lateinit var profileImg: ImageView
+    private lateinit var profile_Img: ImageView
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -58,7 +60,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         val navigationView = findViewById<NavigationView>(R.id.navView)
         val header = navigationView.getHeaderView(0)
         //val userNameTxt = findViewById<TextView>(R.id.usernameText)
-        var profileImg = findViewById<ImageView>(R.id.profileImg)
+        profile_Img = findViewById(R.id.profileImg2)
 
 
         navigationView.setNavigationItemSelectedListener(this)
@@ -71,7 +73,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
 
         updateNavHeader()
 
-        profileImg?.setOnClickListener {
+        profile_Img.setOnClickListener {
             Log.e("ImageTag", "Reached in setOnClickListener()")
             pickImageFromGallery()
         }
@@ -95,11 +97,16 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
 
             }
             R.id.nav_delete -> {
-                Log.e("Delete", "Deleted Function Called")
+                Log.e("Delete", "Deleted Function Called.")
                 val intent = Intent(this, delete_profile::class.java)
                 startActivity(intent)
                 finish()
-
+            }
+            R.id.nav_att -> {
+                Log.e("Attendance", "Into Attendance Activity.")
+                val intent = Intent(this, Attendance::class.java)
+                startActivity(intent)
+                finish()
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -140,7 +147,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
 
     }
 
-    private fun display(){
+    private fun display() {
 
         val id = findViewById<TextView>(R.id.disp_id)
         val nme = findViewById<TextView>(R.id.disp_name)
@@ -149,8 +156,9 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         val dsgn = findViewById<TextView>(R.id.disp_designtn)
         val user_id = FirebaseAuth.getInstance().currentUser!!.uid
         val ref = db.collection("users").document(user_id)
+
         ref.get().addOnSuccessListener {
-            if(it!=null){
+            if (it != null) {
                 val employee_id = it.data?.get("emp_id")?.toString()
                 val mobile = it.data?.get("mobile")?.toString()
                 val name = it.data?.get("name")?.toString()
@@ -162,6 +170,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
                 nme.text = name
                 dsgn.text = desig
                 mal.text = mil
+
             }
 
         }
@@ -173,7 +182,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     private val PICK_IMAGE_REQUEST = 1
 
     private fun pickImageFromGallery() {
-        Log.e("ImageTag","Reached in pickImageFromGallery()")
+        Log.e("ImageTag", "Reached in pickImageFromGallery()")
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
@@ -182,8 +191,8 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
-            val imageUri = data.data
             // Now you have the image URI, proceed to upload it to Firebase Storage and store the URL in Firestore.
+            val imageUri = data.data
             if (imageUri != null) {
                 uploadImageToFirebase(imageUri)
             }
@@ -200,10 +209,11 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
                 }
                 .addOnFailureListener {
                     // Handle the Firestore update failure, if any.
-                    Log.e("Exception","Error")
+                    Log.e("Exception", "Error")
                 }
         }
     }
+
     private fun uploadImageToFirebase(imageUri: Uri) {
         val filename = UUID.randomUUID().toString()
         val ref = FirebaseStorage.getInstance().getReference("/profile_images/$filename")
@@ -216,10 +226,11 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
                 }
             }
             .addOnFailureListener {
-                Toast.makeText(this,"Failed To Upload Image",Toast.LENGTH_SHORT).show()
                 // Handle the upload failure, if any.
+                Toast.makeText(this, "Failed To Upload Image", Toast.LENGTH_SHORT).show()
+
             }
     }
-
 }
+
 
