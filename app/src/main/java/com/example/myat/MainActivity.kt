@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         val navigationView = findViewById<NavigationView>(R.id.navView)
         val header = navigationView.getHeaderView(0)
         //val userNameTxt = findViewById<TextView>(R.id.usernameText)
-        val profileImg = findViewById<ImageView>(R.id.profileImg)
+        var profileImg = findViewById<ImageView>(R.id.profileImg)
 
 
         navigationView.setNavigationItemSelectedListener(this)
@@ -88,7 +88,9 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             R.id.nav_logout -> {
                 Log.e("Logout", "Logged out")
                 val intent = Intent(this, log_in::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
+                finish()
                 Toast.makeText(this, "Logout", Toast.LENGTH_LONG).show()
 
             }
@@ -96,6 +98,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
                 Log.e("Delete", "Deleted Function Called")
                 val intent = Intent(this, delete_profile::class.java)
                 startActivity(intent)
+                finish()
 
             }
         }
@@ -167,12 +170,6 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             }
     }
 
-    private fun ChangeImage(){
-        // id -> profileImg
-
-    }
-
-
     private val PICK_IMAGE_REQUEST = 1
 
     private fun pickImageFromGallery() {
@@ -219,6 +216,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
                 }
             }
             .addOnFailureListener {
+                Toast.makeText(this,"Failed To Upload Image",Toast.LENGTH_SHORT).show()
                 // Handle the upload failure, if any.
             }
     }

@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class splashscreen : AppCompatActivity() {
-    private val SPLASH_DELAY: Long = 2000 // 3 seconds
+    private val SPLASH_DELAY: Long = 1000 // 1 seconds
     private lateinit var auth: FirebaseAuth
 
 
@@ -21,6 +21,7 @@ class splashscreen : AppCompatActivity() {
 
             // Check the user's authentication status
             val currentUser = auth.currentUser
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             Log.e("currentUser",currentUser?.email.toString())
             /*if (currentUser != null) {
                 // User is authenticated, navigate to MainActivity
@@ -28,6 +29,7 @@ class splashscreen : AppCompatActivity() {
             }else{*/
                 // User is not authenticated, navigate to LoginActivity
                 startActivity(Intent(this, log_in::class.java))
+
             //}
             // Close the splash activity to prevent the user from navigating back to it
             finish()
