@@ -5,14 +5,17 @@
     android:layout_height="250dp"
     android:gravity="bottom"
     android:background="@drawable/wave"
-    android:padding="40dp"
-    >
+    android:padding="40dp">
+
 
     <ImageView
         android:id="@+id/profileImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/logo1"/>
+        android:src="@drawable/logo1"
+        android:scaleType="centerCrop"/>
+
+
     <View
         android:layout_width="match_parent"
         android:layout_height="8dp" />

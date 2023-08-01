@@ -19,6 +19,7 @@
         android:theme="@style/AppTheme"
         android:uiOptions="splitActionBarWhenNarrow"
         tools:targetApi="31">
+
         <activity
             android:name=".Attendance"
             android:exported="false" />
@@ -39,6 +40,9 @@
             android:exported="false" />
         <activity
             android:name=".delete_profile"
+            android:exported="false" />
+        <activity
+            android:name=".ViewAttendance"
             android:exported="false" />
         <activity
             android:name=".splashscreen"

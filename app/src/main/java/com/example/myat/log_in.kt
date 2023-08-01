@@ -3,7 +3,9 @@ package com.example.myat
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -18,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import saveDataToSharedPreferences
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -30,13 +33,14 @@ class log_in:AppCompatActivity() {
         private const val PRIMARY_LOCATION_LATITUDE = 26.865644
         private const val PRIMARY_LOCATION_LONGITUDE = 81.001442
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
-        private const val ALLOWED_RADIUS = 100.0 // 10 meters
+        private const val ALLOWED_RADIUS = 10000000000.0 // 10 meters
 
 
         // Set the allowed radius threshold in meters
     }
     private lateinit var auth: FirebaseAuth
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.log_in)
@@ -49,6 +53,7 @@ class log_in:AppCompatActivity() {
         var log_in = findViewById<Button>(R.id.btnlogin)
         var sgn_up = findViewById<TextView>(R.id.textViewSignUp)
         var fpass = findViewById<TextView>(R.id.forgotPassword)
+
 
         log_in.setOnClickListener {
             loginUserWithLocationCheck()
@@ -123,6 +128,7 @@ class log_in:AppCompatActivity() {
                     Log.e("Distance", "$distance")
 
                     if (distance <= ALLOWED_RADIUS) {
+
                         // User's location is within the allowed radius, proceed with login
                         loginUser()
                     } else {
@@ -155,16 +161,19 @@ class log_in:AppCompatActivity() {
             .get()
             .addOnSuccessListener { querySnapshot ->
                 if (!querySnapshot.isEmpty) {
-                    Log.e("Reached","Reached1")
                     val userDocument = querySnapshot.documents[0]
                     val userEmail = userDocument.getString("email")
+                    val userName = userDocument.getString("emp_id")
+                    if (userName != null) {
+                        saveDataToSharedPreferences(this,"emp_id",userName)
+                    }
 
                     if (userEmail != null) {
                         // Authenticate the user with the retrieved email and the password entered
                         auth.signInWithEmailAndPassword(userEmail, password)
                             .addOnCompleteListener(this) { task ->
                                 if (task.isSuccessful) {
-                                    Log.e("Reached","Reached2")
+                                    requestLocation()
                                     // Login success, user is authenticated
                                     val intent = Intent(this, MainActivity::class.java)
                                     startActivity(intent)
@@ -194,6 +203,49 @@ class log_in:AppCompatActivity() {
                 Toast.makeText(this, "Failed to query Firestore: ${e.message}", Toast.LENGTH_LONG)
                     .show()
             }
+    }
+
+    private fun requestLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    val latitude = location.latitude
+                    val longitude = location.longitude
+                    getAddressFromLocation(latitude, longitude)
+                } else {
+                    Toast.makeText(this, "Location not available", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Failed to get location: ${e.message}", Toast.LENGTH_SHORT)
+                    .show()
+            }
+    }
+    private fun getAddressFromLocation(latitude: Double, longitude: Double) {
+        val geocoder = Geocoder(this)
+        val addresses = geocoder.getFromLocation(latitude, longitude, 1)
+        if (addresses != null) {
+            if (addresses.isNotEmpty()) {
+                val address = addresses[0]
+                val addressText = address.getAddressLine(0)
+                Log.e("Current Location:", addressText)
+
+                FirebaseFirestore.getInstance().collection("users").document(Firebase.auth.currentUser!!.uid).update("lastLocation",addressText)
+                Toast.makeText(this, "Current Location: $addressText", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(this, "Address not found", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun showError(message: String) {

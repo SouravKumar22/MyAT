@@ -19,7 +19,9 @@
             android:id="@+id/profileImg2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/logo1" />
+            android:src="@drawable/logo1"
+            android:scaleType="centerCrop"
+            />
 
         <View
             android:layout_width="match_parent"

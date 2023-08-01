@@ -25,7 +25,9 @@
             android:id="@+id/profileImg2"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/logo1" />
+            android:src="@drawable/ic_person"
+            android:background="@drawable/image_bg"
+            android:scaleType="centerCrop"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="5dp" />

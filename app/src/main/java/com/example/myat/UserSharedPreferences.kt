@@ -1,5 +1,10 @@
 import android.content.Context
 
+/*
+    SharedPreferences in android is a simple key-value storage
+    that allows you to store and retrieve small amounts of data locally in device
+*/
+
 // Function to save data in Shared Preferences
 fun saveDataToSharedPreferences(context: Context, key: String, value: String) {
     val sharedPrefs = context.getSharedPreferences("CurrentUser", Context.MODE_PRIVATE)

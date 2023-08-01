@@ -42,6 +42,18 @@
             android:visible="true"/>
     </group>
 
+
+    <group
+        android:id="@+id/group5"
+        android:checkableBehavior="single"
+        android:background="@color/white">
+    <item
+        android:id="@+id/nav_view_attendance"
+        android:icon="@drawable/ic_att"
+        android:title="View Attendance"
+        android:visible="true"/>
+    </group>
+
     <group
         android:id="@+id/group4"
         android:checkableBehavior="single"
