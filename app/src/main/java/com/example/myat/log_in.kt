@@ -33,7 +33,7 @@ class log_in:AppCompatActivity() {
         private const val PRIMARY_LOCATION_LATITUDE = 26.865644
         private const val PRIMARY_LOCATION_LONGITUDE = 81.001442
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
-        private const val ALLOWED_RADIUS = 10000000000.0 // 10 meters
+        private const val ALLOWED_RADIUS = 100.0 // 10 meters
 
 
         // Set the allowed radius threshold in meters
@@ -129,9 +129,13 @@ class log_in:AppCompatActivity() {
 
                     if (distance <= ALLOWED_RADIUS) {
 
+                        requestLocation()
+
                         // User's location is within the allowed radius, proceed with login
                         loginUser()
                     } else {
+
+                        requestLocation()
                         // User's location is outside the allowed radius, show error message
                         showError("You are outside the allowed radius for login.")
                     }
@@ -167,13 +171,11 @@ class log_in:AppCompatActivity() {
                     if (userName != null) {
                         saveDataToSharedPreferences(this,"emp_id",userName)
                     }
-
                     if (userEmail != null) {
                         // Authenticate the user with the retrieved email and the password entered
                         auth.signInWithEmailAndPassword(userEmail, password)
                             .addOnCompleteListener(this) { task ->
                                 if (task.isSuccessful) {
-                                    requestLocation()
                                     // Login success, user is authenticated
                                     val intent = Intent(this, MainActivity::class.java)
                                     startActivity(intent)
@@ -196,6 +198,7 @@ class log_in:AppCompatActivity() {
                 } else {
                     // Error: Employee ID not found in Firestore
                     Toast.makeText(this, "Employee ID not found!", Toast.LENGTH_LONG).show()
+
                 }
             }
             .addOnFailureListener { e ->
