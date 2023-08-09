@@ -46,10 +46,10 @@ class Attendance : AppCompatActivity() {
                     attended="Absent"
                     Toast.makeText(this,"You Are Absent",Toast.LENGTH_SHORT).show()
                 }
-//                R.id.leave ->{
-//                    attended="leave"
-//                    Toast.makeText(this,"You Are On Leave",Toast.LENGTH_SHORT).show()
-//                }
+                R.id.leave ->{
+                    attended="Leave"
+                    Toast.makeText(this,"You Are On Leave",Toast.LENGTH_SHORT).show()
+                }
             }
 
         }
