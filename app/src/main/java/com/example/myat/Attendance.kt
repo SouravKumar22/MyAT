@@ -21,7 +21,6 @@ import java.util.*
 class Attendance : AppCompatActivity() {
     private lateinit var dte: TextView
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_attendance)
@@ -55,15 +54,20 @@ class Attendance : AppCompatActivity() {
         }
 
         submit.setOnClickListener{
-            val attendanceDetails = hashMapOf(
-                "date" to dte.text,
-                "attended" to attended,
-            )
-            val user_id = FirebaseAuth.getInstance().currentUser!!.uid
-            if (!user_id.equals("")&& user_id!=null){
-                Firebase.firestore.collection("users").document(user_id).collection("attendance").document().set(attendanceDetails)
+            if(dte.text!="Date") {
+                val attendanceDetails = hashMapOf(
+                    "date" to dte.text,
+                    "attended" to attended,
+                )
+                val user_id = FirebaseAuth.getInstance().currentUser!!.uid
+                if (!user_id.equals("") && user_id != null) {
+                    Firebase.firestore.collection("users").document(user_id)
+                        .collection("attendance").document().set(attendanceDetails)
+                }
+                Toast.makeText(this, "Attendance Marked", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Please Select Date", Toast.LENGTH_SHORT).show()
             }
-            Toast.makeText(this,"Attendance Marked",Toast.LENGTH_SHORT).show()
         }
     }
 

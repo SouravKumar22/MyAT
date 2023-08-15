@@ -1,6 +1,7 @@
 package com.example.myat
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -34,10 +36,9 @@ class log_in:AppCompatActivity() {
         private const val PRIMARY_LOCATION_LONGITUDE = 81.001442
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
         private const val ALLOWED_RADIUS = 100.0 // 10 meters
-
-
         // Set the allowed radius threshold in meters
     }
+
     private lateinit var auth: FirebaseAuth
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -159,17 +160,20 @@ class log_in:AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
         val empID = findViewById<EditText>(R.id.input_emp_id).text.toString()
         val password = findViewById<EditText>(R.id.inputPassword).text.toString()
+
         // Query Firestore to get the user's email associated with the employee ID
         db.collection("users")
-            .whereEqualTo("emp_id", empID)
+            .whereEqualTo("emp_id", empID.trim())
             .get()
             .addOnSuccessListener { querySnapshot ->
                 if (!querySnapshot.isEmpty) {
+                    Log.e("not empty: ","Inside loginUser()")
                     val userDocument = querySnapshot.documents[0]
                     val userEmail = userDocument.getString("email")
                     val userName = userDocument.getString("emp_id")
                     if (userName != null) {
                         saveDataToSharedPreferences(this,"emp_id",userName)
+                        Log.e("Checkshared: ","Inside loginUser()")
                     }
                     if (userEmail != null) {
                         // Authenticate the user with the retrieved email and the password entered
@@ -177,12 +181,15 @@ class log_in:AppCompatActivity() {
                             .addOnCompleteListener(this) { task ->
                                 if (task.isSuccessful) {
                                     // Login success, user is authenticated
+                                    Log.e("Check: ","Inside loginUser()")
                                     val intent = Intent(this, MainActivity::class.java)
                                     startActivity(intent)
                                     Toast.makeText(this, "Login Successful!", Toast.LENGTH_LONG)
                                         .show()
                                     // Redirect to the home screen or perform other actions
                                 } else {
+
+                                    Log.e("Check2: ","Inside loginUser()")
                                     // Login failed, handle the error
                                     Toast.makeText(
                                         this,
@@ -196,6 +203,8 @@ class log_in:AppCompatActivity() {
                         Toast.makeText(this, "Employee ID not found!", Toast.LENGTH_LONG).show()
                     }
                 } else {
+
+                    Log.e("not empty: ","Inside loginUser()")
                     // Error: Employee ID not found in Firestore
                     Toast.makeText(this, "Employee ID not found!", Toast.LENGTH_LONG).show()
 
@@ -203,6 +212,7 @@ class log_in:AppCompatActivity() {
             }
             .addOnFailureListener { e ->
                 // Error: Failed to query Firestore
+                Log.e("Failed","${e.message}")
                 Toast.makeText(this, "Failed to query Firestore: ${e.message}", Toast.LENGTH_LONG)
                     .show()
             }
@@ -243,7 +253,14 @@ class log_in:AppCompatActivity() {
                 val addressText = address.getAddressLine(0)
                 Log.e("Current Location:", addressText)
 
-                FirebaseFirestore.getInstance().collection("users").document(Firebase.auth.currentUser!!.uid).update("lastLocation",addressText)
+                try
+                {
+                    FirebaseFirestore.getInstance().collection("users")
+                        .document(Firebase.auth.currentUser!!.uid)
+                        .update("lastLocation", addressText)
+                }catch (e:Exception){
+                    print(e.message)
+                }
                 Toast.makeText(this, "Current Location: $addressText", Toast.LENGTH_LONG).show()
             } else {
                 Toast.makeText(this, "Address not found", Toast.LENGTH_SHORT).show()

@@ -1,38 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_gravity="center"
     android:layout_height="match_parent"
     tools:context=".Attendance"
-    android:padding="50dp"
+    android:padding="10dp"
     android:orientation="vertical"
     android:background="@drawable/img">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/input_bg3"
-        android:gravity="center"
-        android:paddingLeft="20dp"
-        android:paddingTop="5dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="5dp"
-        android:text="Welcome to Attendance Page"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        android:textStyle="bold" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="485dp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="5dp">
+        android:gravity="center"
+        android:padding="5dp"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_bg3"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="5dp"
+            android:text="Welcome to Attendance Page"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            tools:ignore="MissingConstraints" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -46,12 +51,12 @@
             android:paddingBottom="5dp"
             android:text="Select Date"
             android:textColor="@color/white"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:textStyle="bold" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="40dp" />
 
         <TextView
             android:id="@+id/tvDate"
@@ -66,12 +71,12 @@
             android:paddingBottom="5dp"
             android:text="Date"
             android:textColor="@color/white"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:textStyle="bold" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="40dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -85,14 +90,15 @@
             android:paddingBottom="5dp"
             android:text="Mark My Attendance"
             android:textColor="@color/white"
-            android:textSize="27sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="40dp" />
 
         <RadioGroup
+            android:gravity="center"
             android:id="@+id/radiogroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -104,10 +110,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:paddingRight="10dp"
+                android:paddingRight="5dp"
                 android:text="Present"
                 android:textColor="@color/white"
-                android:textSize="19sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <RadioButton
@@ -115,26 +121,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Absent"
-                android:paddingRight="10dp"
+                android:paddingRight="5dp"
                 android:textColor="@color/white"
-                android:textSize="19sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <RadioButton
                 android:id="@+id/leave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:text="Leave"
                 android:textColor="@color/white"
-                android:textSize="19sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
         </RadioGroup>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="24dp" />
+            android:layout_height="20dp" />
 
         <Button
             android:id="@+id/btnsmtatt"
