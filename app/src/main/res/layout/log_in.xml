@@ -57,7 +57,7 @@
         android:drawablePadding="10dp"
         android:ems="10"
         android:hint="Employee ID"
-        android:inputType="textEmailAddress"
+        android:inputType="number"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:paddingRight="10dp"

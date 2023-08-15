@@ -2,6 +2,7 @@ package com.example.myat
 
 import android.app.DatePickerDialog
 import android.app.ProgressDialog.show
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -65,6 +66,8 @@ class Attendance : AppCompatActivity() {
                         .collection("attendance").document().set(attendanceDetails)
                 }
                 Toast.makeText(this, "Attendance Marked", Toast.LENGTH_SHORT).show()
+                var intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
             }else{
                 Toast.makeText(this, "Please Select Date", Toast.LENGTH_SHORT).show()
             }

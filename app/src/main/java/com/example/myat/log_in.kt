@@ -35,7 +35,7 @@ class log_in:AppCompatActivity() {
         private const val PRIMARY_LOCATION_LATITUDE = 26.865644
         private const val PRIMARY_LOCATION_LONGITUDE = 81.001442
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
-        private const val ALLOWED_RADIUS = 100.0 // 10 meters
+        private const val ALLOWED_RADIUS = 10.0 // 10 meters
         // Set the allowed radius threshold in meters
     }
 
